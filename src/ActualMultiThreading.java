@@ -1,5 +1,5 @@
 class Printer{
-    synchronized void printDocuments(String name){
+    void printDocuments(String name){
         for(int i=0;i<10;i++){
             System.out.println(name +" document number: "+ i + "printing");
         }
@@ -8,14 +8,19 @@ class Printer{
 
 class MyThread extends Thread{
     Printer printer;
-    MyThread(Printer pref){
+    String name;
+    MyThread(Printer pref, String name){
         printer = pref;
+        this.name = name;
     }
 
     @Override
     public void run() {
-        printer.printDocuments("Shankar");
+        synchronized (printer){
+            printer.printDocuments(name);
+        }
     }
+
 }
 
 class YourThread extends Thread{
@@ -35,10 +40,10 @@ public class ActualMultiThreading {
         System.out.println("Application Started");
         Printer printer = new Printer();
 
-        MyThread myThread = new MyThread(printer);
-        YourThread yourThread = new YourThread(printer);
-        yourThread.start();
+        MyThread myThread = new MyThread(printer,"Shankar");
+        MyThread myThread1 = new MyThread(printer,"Saran");
         myThread.start();
+        myThread1.start();
 
         System.out.println("Application Finished");
     }
