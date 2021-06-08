@@ -25,13 +25,17 @@ class MyThread extends Thread{
 
 class YourThread extends Thread{
     Printer printer;
-    YourThread(Printer pref){
+    String name;
+    YourThread(Printer pref, String name){
         printer = pref;
+        this.name = name;
     }
 
     @Override
     public void run() {
-        printer.printDocuments("Sahib");
+        synchronized (printer){
+            printer.printDocuments(name);
+        }
     }
 }
 
@@ -41,9 +45,9 @@ public class ActualMultiThreading {
         Printer printer = new Printer();
 
         MyThread myThread = new MyThread(printer,"Shankar");
-        MyThread myThread1 = new MyThread(printer,"Saran");
+        YourThread yourThread = new YourThread(printer,"Sahib");
         myThread.start();
-        myThread1.start();
+        yourThread.start();
 
         System.out.println("Application Finished");
     }
