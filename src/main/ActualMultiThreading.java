@@ -1,3 +1,5 @@
+package main;
+
 class Printer{
     void printDocuments(String name){
         for(int i=0;i<10;i++){
